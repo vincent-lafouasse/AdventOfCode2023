@@ -7,8 +7,8 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 add_compile_options(-g3)
 
 
-add_executable(p1 part1/main.cpp)
-add_executable(p2 part2/main.cpp)
+add_executable(p1 p1/main.cpp)
+add_executable(p2 p2/main.cpp)
 
 # LSP stuff, don't worry about it
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
