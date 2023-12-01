@@ -7,3 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(SRCS_1 part1/main.cpp)
 
 add_executable(p1 ${SRCS_1})
+
+# LSP stuff, don't worry about it
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
