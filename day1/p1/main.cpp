@@ -63,7 +63,7 @@ short opt_char_to_int(std::optional<char> c)
 {
     if (!c)
         return 0;
-    if (!isdigit(*c))
+    if (!isdigit(c.value()))
         return 0;
-    return *c - '0';
+    return c.value() - '0';
 }
