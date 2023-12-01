@@ -7,11 +7,10 @@
 #include <cstdlib>
 
 #define INPUT "input.txt"
-#define ERROR 1
 
 std::optional<char> get_first(const std::string& s, int (*is)(int));
 std::optional<char> get_last(const std::string& s, int (*is)(int));
-char opt_char_to_int(std::optional<char> c);
+short opt_char_to_int(std::optional<char> c);
 
 int main()
 {
@@ -28,7 +27,7 @@ int main()
         first_digit = get_first(line, &isdigit);
         last_digit = get_last(line, &isdigit);
         if (!first_digit)
-            return ERROR;
+            break;
 
         sum += 10 * opt_char_to_int(first_digit) + opt_char_to_int(last_digit);
     }
@@ -60,7 +59,7 @@ std::optional<char> get_last(const std::string& s, int (*is)(int))
     return {};
 }
 
-char opt_char_to_int(std::optional<char> c)
+short opt_char_to_int(std::optional<char> c)
 {
     if (!c)
         return 0;
