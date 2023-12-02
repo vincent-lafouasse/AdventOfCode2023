@@ -10,6 +10,6 @@ int main()
     std::string line;
     while (infile >> line)
     {
-		std::cout << line;
+        std::cout << line;
     }
 }
