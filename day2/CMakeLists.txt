@@ -7,7 +7,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 add_compile_options(-g3)
 
 
-add_executable(p1 p1/main.cpp p1/Hand.cpp p1/Hand.h)
+add_executable(p1 p1/main.cpp p1/Game.cpp p1/Game.h p1/Hand.cpp p1/Hand.h)
 add_executable(p2 p2/main.cpp)
 
 # LSP stuff, don't worry about it
