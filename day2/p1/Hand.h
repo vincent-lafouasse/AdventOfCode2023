@@ -8,4 +8,5 @@ class Hand
     int green;
 
     bool is_possible(const Hand& maximum);
+    void log(void) const;
 };

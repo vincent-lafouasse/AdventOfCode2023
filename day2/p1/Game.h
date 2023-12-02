@@ -9,6 +9,7 @@ class Game
 {
    public:
     Game(const std::string& line);
+    void log(void) const;
 
     bool is_valid(void);
     int id;
