@@ -8,6 +8,7 @@
 class Game
 {
    public:
+	Game();
     Game(const std::string& line);
     void log(void) const;
 
