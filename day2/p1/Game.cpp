@@ -1,9 +1,12 @@
 #include "Game.h"
 
 #include <iostream>
+#include <cstring>
 
 Game::Game() {}
-Game::Game(const std::string& line) {}
+Game::Game(const std::string& line)
+{
+}
 
 bool Game::is_valid(void)
 {
