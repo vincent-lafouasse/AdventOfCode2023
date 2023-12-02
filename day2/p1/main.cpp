@@ -15,6 +15,7 @@ int main()
     std::string line;
     while (getline(infile, line))
     {
-        std::cout << line << '\n';
+        current_game = Game(line);
+		current_game.log();
     }
 }

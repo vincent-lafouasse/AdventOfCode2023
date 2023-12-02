@@ -1,11 +1,16 @@
 #include "Game.h"
 
 #include <iostream>
-#include <cstring>
+#include <sstream>
 
 Game::Game() {}
 Game::Game(const std::string& line)
 {
+	std::stringstream stream{line};
+	std::string buffer;
+
+	stream >> buffer;
+	stream >> id;
 }
 
 bool Game::is_valid(void)
