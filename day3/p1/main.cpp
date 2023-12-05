@@ -7,62 +7,53 @@
 #include <vector>
 
 constexpr char EMPTY = '.';
+typedef int64_t i64;
+typedef uint32_t u32;
+
+bool is_symbol(char c);
+
+class Position
+{
+   public:
+    Position(){};
+    Position(i64 row, i64 col) : row(row), col(col) {}
+    bool is_valid(const std::vector<std::string>& lines)
+    {
+        if (row < 0 || row == lines.size())
+            return false;
+        if (col < 0 || col == lines.at(row).size())
+            return false;
+        return true;
+    }
+    bool contains_symbol(const std::vector<std::string>& lines)
+    {
+        return is_symbol(lines.at(row).at(col));
+    }
+    std::vector<Position> neighbours(const std::vector<std::string>& lines)
+    {
+        const std::array<i64, 2> dXs = {-1, 1};
+        const std::array<i64, 2> dYs = {-1, 1};
+
+        std::vector<Position> out;
+
+        for (i64 dX : dXs)
+        {
+            for (i64 dY : dYs)
+            {
+                Position candidate{row + dX, col + dY};
+                if (candidate.is_valid(lines))
+                    out.push_back(candidate);
+            }
+        }
+        return out;
+    }
+
+    i64 col;
+    i64 row;
+};
 
 std::vector<std::string> load_lines(std::string_view input);
 std::vector<std::string> split(std::ifstream& stream, char sep);
-
-bool is_symbol(char c)
-{
-    return !(std::isdigit(c) || c == EMPTY);
-}
-
-bool is_symbol(size_t line_i,
-               size_t col_i,
-               const std::vector<std::string>& lines)
-{
-    return is_symbol(lines.at(line_i).at(col_i));
-}
-
-bool is_valid_index(ssize_t line_i,
-                    ssize_t col_i,
-                    const std::vector<std::string>& lines)
-{
-    if (line_i < 0 || line_i == lines.size())
-        return false;
-    if (col_i < 0 || col_i == lines.at(line_i).size())
-        return false;
-    return true;
-}
-
-bool has_symbol_around(size_t line_i,
-                       size_t col_i,
-                       const std::vector<std::string>& lines)
-{
-    const std::array<ssize_t, 2> deltaXs = {-1, 1};
-    const std::array<ssize_t, 2> deltaYs = {-1, 1};
-
-    for (ssize_t dX : deltaXs)
-    {
-        for (ssize_t dY : deltaXs)
-        {
-            if (is_valid_index(line_i + dY, col_i + dX, lines) &&
-                is_symbol(line_i + dY, col_i + dX, lines))
-                return true;
-        }
-    }
-    return false;
-}
-
-bool is_valid(size_t line_i,
-              std::optional<size_t> start,
-              std::optional<size_t> end,
-              const std::vector<std::string>& lines)
-{
-    if (!start)
-        return false;
-
-    return true;
-}
 
 int main(void)
 {
@@ -76,24 +67,6 @@ int main(void)
 
     size_t number;
     size_t sum{};
-
-    for (size_t line_i = 0; line_i < lines.size(); line_i++)
-    {
-        line = lines[line_i];
-        number_start = {};
-        for (size_t col_i = 0; col_i < line.size(); col_i++)
-        {
-            if (!std::isdigit(line[col_i]))
-                continue;
-            if (!number_start && std::isdigit(line[col_i]))
-                number_start = col_i;
-            if (number_start && (!std::isdigit(line[col_i])))
-            {
-                number_end = col_i;
-                is_part = is_valid(line_i, number_start, number_end, lines);
-            }
-        }
-    }
 }
 
 std::vector<std::string> load_lines(std::string_view input)
@@ -114,4 +87,9 @@ std::vector<std::string> split(std::ifstream& stream, char sep)
         out.push_back(token);
     }
     return out;
+}
+
+bool is_symbol(char c)
+{
+    return !(std::isdigit(c) || c == EMPTY);
 }
