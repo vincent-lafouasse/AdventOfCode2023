@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include <array>
 #include <fstream>
 #include <iostream>
@@ -9,6 +10,7 @@
 constexpr char EMPTY = '.';
 typedef int64_t i64;
 typedef uint32_t u32;
+typedef std::vector<std::string> Lines;
 
 std::vector<std::string> load_lines(std::string_view input);
 std::vector<std::string> split(std::ifstream& stream, char sep);
@@ -17,18 +19,25 @@ bool is_symbol(char c);
 struct Position {
     Position(){};
     Position(i64 row, i64 col) : col(col), row(row) {}
-    char in(const std::vector<std::string>& lines);
-    bool is_valid(const std::vector<std::string>& lines);
-    bool contains_symbol(const std::vector<std::string>& lines);
-    std::vector<Position> neighbours(const std::vector<std::string>& lines);
+    char in(const Lines& lines);
+    bool is_valid(const Lines& lines);
+    bool contains_symbol(const Lines& lines);
+    std::vector<Position> neighbours(const Lines& lines);
 
     i64 col;
     i64 row;
 };
 
+struct Number {
+    Number(Position pos, const Lines& lines);
+
+    Position pos;
+    i64 data;
+};
+
 int main(void) {
     constexpr std::string_view INPUT = "short_input.txt";
-    std::vector<std::string> lines = load_lines(INPUT);
+    Lines lines = load_lines(INPUT);
 
     std::optional<u32> start;
 
@@ -48,9 +57,9 @@ int main(void) {
     }
 }
 
-std::vector<std::string> load_lines(std::string_view input) {
+Lines load_lines(std::string_view input) {
     std::ifstream input_stream{input};
-    std::vector<std::string> lines = split(input_stream, '\n');
+    Lines lines = split(input_stream, '\n');
     input_stream.close();
     return lines;
 }
@@ -69,21 +78,20 @@ bool is_symbol(char c) {
     return !(std::isdigit(c) || c == EMPTY);
 }
 
-char Position::in(const std::vector<std::string>& lines) {
+char Position::in(const Lines& lines) {
     return lines.at(row).at(col);
 }
-bool Position::is_valid(const std::vector<std::string>& lines) {
+bool Position::is_valid(const Lines& lines) {
     if (row < 0 || static_cast<u32>(row) == lines.size())
         return false;
     if (col < 0 || static_cast<u32>(col) == lines.at(row).size())
         return false;
     return true;
 }
-bool Position::contains_symbol(const std::vector<std::string>& lines) {
+bool Position::contains_symbol(const Lines& lines) {
     return is_symbol(in(lines));
 }
-std::vector<Position> Position::neighbours(
-    const std::vector<std::string>& lines) {
+std::vector<Position> Position::neighbours(const Lines& lines) {
     const std::array<i64, 2> dXs = {-1, 1};
     const std::array<i64, 2> dYs = {-1, 1};
 
