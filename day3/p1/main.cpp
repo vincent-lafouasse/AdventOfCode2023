@@ -29,7 +29,12 @@ struct Position {
 };
 
 struct Number {
-    Number(Position pos, const Lines& lines);
+    Number(Position pos, const Lines& lines) {
+        this->pos = pos;
+        std::string line = lines.at(pos.row);
+        data = std::atoi(line.c_str() + pos.col);
+    }
+    void log(void) { std::cout << data << '\n'; }
 
     Position pos;
     i64 data;
@@ -50,7 +55,8 @@ int main(void) {
             }
             if (start && (!std::isdigit(pos.in(lines)) ||
                           col == lines[row].size() - 1)) {
-                std::cout << std::atoi(lines.at(row).c_str() + *start) << '\n';
+                Number n({row, start.value()}, lines);
+                n.log();
                 start = {};
             }
         }
