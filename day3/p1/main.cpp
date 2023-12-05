@@ -4,20 +4,28 @@
 #include <string>
 #include <vector>
 
-#define INPUT "short_input.txt"
+constexpr char EMPTY = '.';
 
+std::vector<std::string> load_lines(std::string_view input);
 std::vector<std::string> split(std::ifstream& stream, char sep);
 
 int main(void)
 {
-    std::ifstream input_stream{INPUT};
-    std::vector<std::string> lines = split(input_stream, '\n');
-    input_stream.close();
+    constexpr std::string_view INPUT = "short_input.txt";
+    std::vector<std::string> lines = load_lines(INPUT);
 
     for (auto const& line : lines)
     {
         std::cout << line << '\n';
     }
+}
+
+std::vector<std::string> load_lines(std::string_view input)
+{
+    std::ifstream input_stream{input};
+    std::vector<std::string> lines = split(input_stream, '\n');
+    input_stream.close();
+    return lines;
 }
 
 std::vector<std::string> split(std::ifstream& stream, char sep)
