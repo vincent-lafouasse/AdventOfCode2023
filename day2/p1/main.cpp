@@ -9,20 +9,17 @@ const std::unordered_map<std::string, int> MAX = {
     {"blue", 14},
 };
 
-static size_t n_digits(unsigned n)
-{
+static size_t n_digits(unsigned n) {
     size_t n_digits{};
 
-    while (n)
-    {
+    while (n) {
         n /= 10;
         n_digits++;
     }
     return n_digits;
 }
 
-static bool hand_is_valid(const std::string& hand)
-{
+static bool hand_is_valid(const std::string& hand) {
     std::stringstream stream{hand};
 
     std::unordered_map<std::string, int> colors;
@@ -31,8 +28,7 @@ static bool hand_is_valid(const std::string& hand)
     int n;
 
     std::string draw;
-    while (std::getline(stream, draw, ','))
-    {
+    while (std::getline(stream, draw, ',')) {
         std::sscanf(draw.c_str(), " %i %s", &n, color);
         std::string color_s = color;
         colors[color_s] += n;
@@ -42,13 +38,11 @@ static bool hand_is_valid(const std::string& hand)
     return true;
 }
 
-static bool game_is_valid(const std::string& game)
-{
+static bool game_is_valid(const std::string& game) {
     std::stringstream stream{game};
 
     std::string hand;
-    while (std::getline(stream, hand, ';'))
-    {
+    while (std::getline(stream, hand, ';')) {
         if (!hand_is_valid(hand))
             return false;
     }
@@ -56,16 +50,14 @@ static bool game_is_valid(const std::string& game)
     return true;
 }
 
-int main()
-{
+int main() {
     std::ifstream infile{"input.txt"};
 
     uint64_t sum{};
 
     std::string game;
     uint64_t id;
-    while (getline(infile, game))
-    {
+    while (getline(infile, game)) {
         id = std::atoi(game.c_str() + 4);
         if (game_is_valid(game.substr(7 + n_digits(id))))
             sum += id;

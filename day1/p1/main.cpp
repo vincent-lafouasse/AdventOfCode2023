@@ -12,8 +12,7 @@ std::optional<char> get_first(const std::string& s, int (*is)(int));
 std::optional<char> get_last(const std::string& s, int (*is)(int));
 short opt_char_to_int(std::optional<char> c);
 
-int main()
-{
+int main() {
     std::ifstream infile{INPUT};
 
     std::optional<char> first_digit;
@@ -22,8 +21,7 @@ int main()
     uint64_t sum{};
 
     std::string line;
-    while (infile >> line)
-    {
+    while (infile >> line) {
         first_digit = get_first(line, &isdigit);
         last_digit = get_last(line, &isdigit);
         if (!first_digit)
@@ -35,32 +33,25 @@ int main()
     std::cout << sum;
 }
 
-std::optional<char> get_first(const std::string& s, int (*is)(int))
-{
-    for (auto it = s.cbegin(); it != s.cend(); it++)
-    {
-        if ((*is)(*it))
-        {
+std::optional<char> get_first(const std::string& s, int (*is)(int)) {
+    for (auto it = s.cbegin(); it != s.cend(); it++) {
+        if ((*is)(*it)) {
             return {*it};
         }
     }
     return {};
 }
 
-std::optional<char> get_last(const std::string& s, int (*is)(int))
-{
-    for (auto it = s.crbegin(); it != s.crend(); it++)
-    {
-        if ((*is)(*it))
-        {
+std::optional<char> get_last(const std::string& s, int (*is)(int)) {
+    for (auto it = s.crbegin(); it != s.crend(); it++) {
+        if ((*is)(*it)) {
             return {*it};
         }
     }
     return {};
 }
 
-short opt_char_to_int(std::optional<char> c)
-{
+short opt_char_to_int(std::optional<char> c) {
     if (!c)
         return 0;
     if (!isdigit(c.value()))
